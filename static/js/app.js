@@ -25,6 +25,9 @@ updateYear(year);
  * @param {*} year the year to display
  */
 function updateYear(year) {
+    // Reset
+    squares.innerHTML = "";
+
     yearLabel.value = year;
 
     let days = YEAR;
@@ -35,7 +38,7 @@ function updateYear(year) {
     const offset = yearStart.getDay();
 
     function formatDate(date) {
-        return new Intl.DateTimeFormat('en-NZ', {
+        return new Intl.DateTimeFormat('en-US', {
         month: 'short',   // e.g. Feb
         day: 'numeric',   // e.g. 14
         year: 'numeric',  // e.g. 2025
@@ -52,15 +55,11 @@ function updateYear(year) {
         const nextMonth = new Date(year, month + 1, 0); 
         const daysInMonth = nextMonth.getDate();
 
-        const weeks = Math.ceil((startDay + daysInMonth) / WEEK);
-        monthLengths.push(weeks - 1);
+        const weeks = Math.floor((startDay + daysInMonth) / WEEK);
+        monthLengths.push(weeks);
     }
 
     months.style.gridTemplateColumns = monthLengths.map(weeks => `calc(var(--week-width) * ${weeks})`).join(' ');
-
-    // Reset
-    squares.innerHTML = "";
-
 
     let currentDate = new Date(yearStart);
     currentDate.setDate(currentDate.getDate() - offset);
