@@ -1,0 +1,206 @@
+@font-face {
+    font-family: "Inter";
+    src: url("../fnt/Inter.ttf") format("truetype");
+}
+
+:root {
+    --square-size: 20px;
+    --square-gap: 2px;
+    --week-width: calc(var(--square-size) + var(--square-gap));
+
+    --colour-background:            #fff;
+    --colour-text:                  #000;
+    --colour-border:                #ccc;
+    --colour-square-empty:          #ccc;
+    --colour-square-empty-border:   #a8a8a8;
+    --colour-square-light:          #afd6a1;
+    --colour-square-light-border:   #41b86f;
+    --colour-square-heavy:          #41b86f;
+    --colour-square-heavy-border:   #339285;
+
+    --colour-tooltip:               #1c1c1c;
+    --colour-tooltip-text:          #fff;
+}  
+
+body.dark {
+    --colour-background:            #1c1c1c;
+    --colour-text:                  #dddddd;
+    --colour-border:                #66686b;
+    --colour-square-empty:          #2a2a2e;
+    --colour-square-empty-border:   #505057;
+    --colour-square-light:          #677e9b;
+    --colour-square-light-border:   #54588b;
+    --colour-square-heavy:          #54588b;
+    --colour-square-heavy-border:   #3d4071;
+
+    --colour-tooltip:               #1c1c1c;
+    --colour-tooltip-text:          #fff;
+}
+
+body {
+    background-color: var(--colour-background);
+    color: var(--colour-text);
+}
+
+* {
+    font-family: "Inter", Arial, sans-serif;
+    font-weight:normal;
+    font-style:normal;
+    box-sizing: border-box;
+}
+
+ul {
+    padding: 0;
+    margin: 0;
+}
+
+li {
+    list-style: none;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    width: fit-content;
+    margin: 1rem;
+}
+
+.toggle {
+    background-color: transparent;
+    border-radius: 0.5rem;
+    border: 1px solid var(--colour-border);
+    padding: 5px 10px;
+    cursor: pointer;
+
+    transition: background-color 0.2s;
+    color: var(--colour-text);
+}
+
+.toggle:hover {
+    background-color: var(--colour-border);
+}
+
+.title {
+    display: inline-block;
+    font-weight: bold;
+    font-size: 2rem;
+    margin: 1rem 0 0.5rem 0;
+}
+
+.activity-pane {
+    border-radius: 0.5rem;
+    border: 1px solid var(--colour-border);
+    padding: 15px 20px;
+    box-sizing: border-box;
+
+    display: flex;
+    flex-direction: column;
+
+    width: fit-content;
+}
+
+hr {
+    border: 0;
+    clear:both;
+    display:block;
+    width: 100%;               
+    background-color:var(--colour-border);
+    height: 1px;
+  }
+
+
+.activity-grid {
+    display: inline-grid;
+    grid-template-areas:    "empty months"
+                            "days squares";
+    grid-gap: 10px;
+    grid-template-columns: auto 1fr;
+}
+
+.months {
+    display: grid;
+}
+
+.days,
+.squares {
+  display: grid;
+  grid-gap: var(--square-gap);
+  grid-template-rows: repeat(7, var(--square-size));
+}
+
+.days li:nth-child(odd) {
+    color: var(--colour-border);
+}
+
+.squares {
+    grid-auto-flow: column;
+    grid-auto-columns: var(--square-size);
+}
+
+.squares > li {
+    position: relative;
+    background-color: var(--colour-square-empty);
+    border-radius: 0.125rem;
+    border: 1px solid var(--colour-square-empty-border);
+    cursor: pointer;
+}
+
+.squares li[data-level="empty"] {
+    pointer-events: none;
+    visibility: hidden;
+}
+
+.squares li[data-level="1"] {
+    background-color: var(--colour-square-light);
+    border-color: var(--colour-square-light-border);
+}
+
+.squares li[data-level="2"] {
+    background-color: var(--colour-square-heavy);
+    border-color: var(--colour-square-heavy-border);
+}
+
+.squares li:hover,
+.squares li:focus {
+    border-width: 2px;
+}
+
+.tooltip {
+    visibility: hidden;
+    opacity: 0;
+    background-color: var(--colour-tooltip);
+    color: var(--colour-tooltip-text);
+    text-align: center;
+    border-radius: 0.25rem;
+    padding: 4px 6px;
+    position: absolute;
+    z-index: 10;
+    bottom: 150%;
+    left: 50%;
+    transform: translateX(-50%);
+    transition: opacity 0.2s;
+    pointer-events: none;
+    white-space: nowrap;
+    font-size: 0.75rem;
+}
+
+.squares li:hover .tooltip,
+.squares li:focus .tooltip {
+    visibility: visible;
+    opacity: 1;
+}
+
+#year-label {
+    width: 10rem;
+    border: none;
+    font-size: 1rem;
+    cursor: pointer;
+    padding: 0.25rem;
+
+    border-radius: 0.25rem;
+    background-color: var(--colour-background);
+    color: var(--colour-text);
+}
